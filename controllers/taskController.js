@@ -1,44 +1,39 @@
-const Task = require("../models/taskModel");
+const db = require("../config/db");
 
-const taskController = {
-  createTask: async (req, res) => {
-    const { title, description } = req.body;
-    const userId = req.user.id;
-    try {
-      const taskId = await Task.create(userId, title, description);
-      res.status(201).json({ taskId });
-    } catch (err) {
-      res.status(500).json({ message: "Task creation failed" });
-    }
-  },
-  getTasks: async (req, res) => {
-    const userId = req.user.id;
-    try {
-      const tasks = await Task.findAllByUserId(userId);
-      res.json(tasks);
-    } catch (err) {
-      res.status(500).json({ message: "Failed to fetch tasks" });
-    }
-  },
-  updateTask: async (req, res) => {
-    const { id } = req.params;
-    const { title, description, completed } = req.body;
-    try {
-      await Task.update(id, title, description, completed);
-      res.json({ message: "Task updated" });
-    } catch (err) {
-      res.status(500).json({ message: "Task update failed" });
-    }
-  },
-  deleteTask: async (req, res) => {
-    const { id } = req.params;
-    try {
-      await Task.delete(id);
-      res.json({ message: "Task deleted" });
-    } catch (err) {
-      res.status(500).json({ message: "Task deletion failed" });
-    }
-  },
-};
+// Mengambil semua task
+async function getTasks(req, res) {
+  db.query('SELECT * FROM tasks', (err, results) => {
+    if (err) return res.status(500).json(err);
+    res.json(results);
+  });
+}
 
-module.exports = taskController;
+// Menambah task
+async function addTask(req, res) {
+  const { title, category, deadline, status } = req.body;
+  db.query('INSERT INTO tasks (title, category, deadline, status) VALUES (?, ?, ?, ?)',
+    [title, category, deadline, status], (err) => {
+      if (err) return res.status(500).json(err);
+      res.status(201).json({ message: 'Task created' });
+    });
+}
+
+// Mengupdate task
+async function updateTask(req, res) {
+  const { title, category, deadline, status } = req.body;
+  db.query('UPDATE tasks SET title = ?, category = ?, deadline = ?, status = ? WHERE id = ?',
+    [title, category, deadline, status, req.params.id], (err) => {
+      if (err) return res.status(500).json(err);
+      res.json({ message: 'Task updated' });
+    });
+}
+
+// Menghapus tugas
+async function deleteTask(req, res) {
+  db.query('DELETE FROM tasks WHERE id = ?', [req.params.id], (err) => {
+    if (err) return res.status(500).json(err);
+    res.json({ message: 'Task deleted' });
+  });
+}
+
+module.exports = { getTasks, addTask, updateTask, deleteTask };

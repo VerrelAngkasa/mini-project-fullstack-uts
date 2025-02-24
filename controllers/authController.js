@@ -1,35 +1,34 @@
-
-const User = require("../models/userModel");
-const { generateToken } = require("../config/auth");
+const db = require("../config/db");
 const bcrypt = require("bcryptjs");
 
-const authController = {
-  register: async (req, res) => {
-    const { username, password } = req.body;
-    try {
-      const userId = await User.create(username, password);
-      const token = generateToken(userId);
-      res.status(201).json({ token });
-    } catch (err) {
-      res.status(500).json({ message: "Registration failed" });
-    }
-  },
-  login: async (req, res) => {
-    const { username, password } = req.body;
-    try {
-      const user = await User.findByUsername(username);
-      if (!user) return res.status(404).json({ message: "User not found" });
+// Register user
+async function userRegister(req, res) {
+  const { username, password } = req.body;
+  const hashedPassword = await bcrypt.hash(password, 10);
+  db.query('INSERT INTO users (username, password) VALUES (?, ?)', [username, hashedPassword], (err) => {
+    if (err) return res.status(500).json(err);
+    res.status(201).json({ message: 'User registered' });
+  });
+}
 
-      const isMatch = await bcrypt.compare(password, user.password);
+// Login user
+async function userLogin(req, res) {
+  const { username, password } = req.body;
+  db.query('SELECT * FROM users WHERE username = ?', [username], async (err, results) => {
+    if (err || results.length === 0) return res.status(401).json({ error: 'Invalid credentials' });
 
-      if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
+    const user = results[0];
+    const isValid = await bcrypt.compare(password, user.password);
+    if (!isValid) return res.status(401).json({ error: 'Invalid credentials' });
 
-      const token = generateToken(user.id);
-      res.json({ token });
-    } catch (err) {
-      res.status(500).json({ message: "Login failed" });
-    }
-  },
-};
+    const token = jwt.sign({ id: user.id, username: user.username }, 'secret_key', { expiresIn: '1h' });
+    res.json({ token });
+  });
+}
 
-module.exports = authController;
+// Logout user
+async function userLogout(req, res) {
+  res.json({ message: 'Logged out' });
+}
+
+module.exports = { userRegister, userLogin, userLogout };
