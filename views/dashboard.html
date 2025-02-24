@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <h1>My Task Lists</h1>
     <div class="container">
         <h2>Daftar Tugas</h2>
-        <button onclick="logout()">Logout</button>
         <ul id="taskList"></ul>
 
         <h3>Tambah Tugas</h3>
@@ -17,6 +17,8 @@
         <input type="text" id="taskCategory" placeholder="Kategori" required>
         <input type="date" id="taskDeadline">
         <button onclick="addTask()">Tambah</button>
+
+        <button onclick="logout()">Logout</button>
     </div>
 
     <script src="script.js"></script>
