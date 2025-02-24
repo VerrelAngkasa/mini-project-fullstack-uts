@@ -1,5 +1,6 @@
 const express = require("express");
-const routes = require("./routes/router");
+const authRoutes = require("./routes/authRoutes");
+const taskRoutes = require("./routes/taskRoutes");
 require("dotenv").config();
 
 const app = express();
@@ -7,12 +8,11 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.use("/auth/register", routes);
-app.use("/auth/login", routes);
-app.use("/auth/logout", routes);
-app.use("/tasks", routes);
-app.use('/tasks/:id', routes);
-app.use('/tasks/:id', routes);
+app.use("/auth/register", authRoutes);
+app.use("/auth/login", authRoutes);
+app.use("/auth/logout", authRoutes);
+app.use("/tasks", taskRoutes);
+app.use("/tasks/:id", taskRoutes);
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
