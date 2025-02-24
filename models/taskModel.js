@@ -1,8 +1,8 @@
 const db = require("../config/db");
 
 const Task = {
-  create: async (userId, title, description) => {
-    const [result] = await db.promise().query("INSERT INTO tasks (user_id, title, description) VALUES (?, ?, ?)", [userId, title, description]);
+  create: async (userId, title, category) => {
+    const [result] = await db.promise().query("INSERT INTO tasks (user_id, title, category) VALUES (?, ?, ?)", [userId, title, category]);
     return result.insertId;
   },
   findAllByUserId: async (userId) => {
