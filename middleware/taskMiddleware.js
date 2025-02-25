@@ -1,3 +1,4 @@
+// Fungsi untuk mengecek inputan dari user
 const validateTask = (req, res, next) => {
     const { title, category, deadline, status } = req.body;
     if (!title || !category || !deadline || !status) {

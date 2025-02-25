@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.use(authMiddleware);
 
+// Routes untuk tasks
 router.post("/tasks", taskController.createTask);
 router.get("/tasks", taskController.getTasks);
 router.put("/tasks/:id", taskController.updateTask);
