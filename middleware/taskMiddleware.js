@@ -1,4 +1,4 @@
-// Fungsi untuk mengecek inputan dari user
+// Fungsi untuk menerima request dari user sebelum diteruskan ke server
 const validateTask = (req, res, next) => {
     const { title, category, deadline, status } = req.body;
     if (!title || !category || !deadline || !status) {

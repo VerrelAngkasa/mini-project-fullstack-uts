@@ -1,16 +1,18 @@
-const { verifyToken } = require("../config/auth");
-
-// Fungsi untuk mengvalidasi token user
+const jwt = require("jsonwebtoken");
+ 
+// Proses untuk authorisasi user
 const authMiddleware = (req, res, next) => {
   const token = req.header("Authorization")?.replace("Bearer ", "");
-  if (!token) return res.status(401).json({ message: "Access denied" });
+  if (!token) {
+    return res.status(401).json({ message: "Authorization Denied!" });
+  }
 
   try {
-    const decoded = verifyToken(token);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
     next();
   } catch (err) {
-    res.status(400).json({ message: "Invalid token" });
+    res.status(401).json({ message: "Token is not valid" });
   }
 };
 

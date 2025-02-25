@@ -1,10 +1,17 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
-// Connect ke database MySQL
-const db = mysql.createConnection({
-  host: process.env.MYSQL_HOST,
-  user: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASSWORD,
-  database: process.env.MYSQL_DATABASE,
-});
+// Connect ke database MongoDB yang bernama mini_project
+async function connectDB() {
+  try {
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log('Connected to MongoDB');
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
+module.exports = connectDB;
