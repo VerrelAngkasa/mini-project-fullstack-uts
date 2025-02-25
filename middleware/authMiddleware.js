@@ -1,5 +1,6 @@
 const { verifyToken } = require("../config/auth");
 
+// Fungsi untuk mengvalidasi token user
 const authMiddleware = (req, res, next) => {
   const token = req.header("Authorization")?.replace("Bearer ", "");
   if (!token) return res.status(401).json({ message: "Access denied" });

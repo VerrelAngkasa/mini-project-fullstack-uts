@@ -1,6 +1,7 @@
 const db = require("../config/db");
 const bcrypt = require("bcryptjs");
 
+// Schema database MySQL users
 const User = {
   create: async (username, password) => {
     const hashedPassword = await bcrypt.hash(password, 10);

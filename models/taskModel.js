@@ -1,5 +1,6 @@
 const db = require("../config/db");
 
+// Schema database MySQL tasks
 const Task = {
   create: async (title, category, deadline, status) => {
     const [result] = await db.promise().query(
