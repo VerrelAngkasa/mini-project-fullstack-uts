@@ -1,17 +1,17 @@
-const db = require("../config/db");
-const bcrypt = require("bcryptjs");
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
-// Schema database MySQL users
-const User = {
-  create: async (username, password) => {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const [result] = await db.promise().query("INSERT INTO users (username, password) VALUES (?, ?)", [username, hashedPassword]);
-    return result.insertId;
-  },
-  findByUsername: async (username) => {
-    const [rows] = await db.promise().query("SELECT * FROM users WHERE username = ?", [username]);
-    return rows[0];
-  },
-};
+const userCollection = new mongoose.Schema({
+  username: { type: String, required: true, unique: true },
+  password: { type: String, required: true }
+});
 
-module.exports = User;
+userCollection.pre('save', async function (next) {
+  if (this.isModified('password')) {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
+
+  next();
+});
+
+module.exports = mongoose.model('userModel', userCollection);
