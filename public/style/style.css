@@ -1,97 +1,59 @@
-/* Global Styles */
+:root {
+  --primary-color: #4CAF50;
+  --secondary-color: #2196F3;
+  --danger-color: #f44336;
+  --success-color: #4CAF50;
+  --warning-color: #ff9800;
+}
+
+/* Layout */
 body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f8f9fa;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
 }
 
-/* Card Styling */
-.card {
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Task Cards */
+.task-card {
+  background: #fff;
   border-radius: 8px;
-  border: none;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin: 1rem 0;
+  padding: 1rem;
+  transition: transform 0.2s;
 }
 
-.card-header {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  background-color: #f8f9fa;
+.task-card:hover {
+  transform: translateY(-2px);
 }
 
-/* Form Styling */
-.form-control,
-.form-select {
-  border-radius: 6px;
-  padding: 10px 12px;
-  border: 1px solid #dee2e6;
-}
-
-.form-control:focus,
-.form-select:focus {
-  border-color: #80bdff;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
-
-/* Button Styling */
-.btn {
-  border-radius: 6px;
-  padding: 8px 16px;
-}
-
-.btn-primary {
-  background-color: #0d6efd;
-  border-color: #0d6efd;
-}
-
-.btn-primary:hover {
-  background-color: #0b5ed7;
-  border-color: #0a58ca;
-}
-
-/* Task Categories */
+/* Status Badges */
 .badge {
-  font-weight: 500;
-  padding: 6px 10px;
+  padding: 0.25rem 0.5rem;
   border-radius: 4px;
+  font-size: 0.875rem;
 }
 
-/* Notification Styling */
-#notificationArea {
-  transition: all 0.3s ease;
+.badge.kuliah { background-color: var(--primary-color); color: white; }
+.badge.organisasi { background-color: var(--secondary-color); color: white; }
+
+/* Notifications */
+.notification {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  padding: 1rem;
+  border-radius: 4px;
+  color: white;
+  z-index: 1000;
 }
 
-.notification-enter {
-  opacity: 0;
-  transform: translateY(-20px);
-}
-
-.notification-enter-active {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 300ms, transform 300ms;
-}
-
-/* Task Hover Effect */
-.table-hover tbody tr:hover {
-  background-color: rgba(13, 110, 253, 0.05);
-}
-
-/* Login/Register Form */
-.auth-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
-
-/* Dashboard Styles */
-.list-group-item.active {
-  background-color: #0d6efd;
-  border-color: #0d6efd;
-}
-
-/* Responsive adjustments */
-@media (max-width: 767px) {
-  .btn-group-sm .btn {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.75rem;
-  }
-}
+.notification.success { background-color: var(--success-color); }
+.notification.error { background-color: var(--danger-color); }
