@@ -22,12 +22,12 @@ async function getTasks(req, res) {
   }
 }
 
-// Mengupdate / Memperbaruhi data tugas sesuai dengan id
+// Mengupdate / Memperbaruhi data tugas sesuai dengan _id
 async function updateTask(req, res) {
-  const { id } = req.params;
+  const { _id } = req.params;
   const { title, category, deadline, status } = req.body;
   try {
-    const task = await Task.findByIdAndUpdate(id, { title, category, deadline, status }, { new: true });
+    const task = await Task.findByIdAndUpdate(_id, { title, category, deadline, status }, { new: true });
     if (!task) {
       return res.status(404).json({ message: "Task not found" });
     }
@@ -37,12 +37,11 @@ async function updateTask(req, res) {
   }
 }
 
-
 // Menghapus data tugas sesuai dengan id
 async function deleteTask(req, res) {
-  const { id } = req.params;
+  const { _id } = req.params;
   try {
-    const task = await Task.findByIdAndDelete(id);
+    const task = await Task.findByIdAndDelete(_id);
     if (!task) {
       return res.status(404).json({ message: "Task not found" });
     }

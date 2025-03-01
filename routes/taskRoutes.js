@@ -10,7 +10,7 @@ router.use(authMiddleware);
 // Konfigurasi routes untuk tasks
 router.get('/', getTasks);
 router.post('/', validateTask, addTask);
-router.put('/:id', validateTask, updateTask);
-router.delete('/:id', validateTask, deleteTask);
+router.put('/:_id', validateTask, updateTask);
+router.delete('/:_id', deleteTask);
 
 module.exports = router;

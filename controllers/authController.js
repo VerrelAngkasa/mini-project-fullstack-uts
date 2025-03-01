@@ -21,7 +21,7 @@ async function userLogin(req, res) {
 
   try {
     const user = await User.findOne({ username });
-    if (!user || await bcrypt.compare(password, user.password)) {
+    if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(400).json({ message: 'Username or password not found' });
     }
     
