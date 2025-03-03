@@ -1,4 +1,4 @@
-const Task = require("../models/taskModel");
+const Task = require('../models/taskModel');
 
 // Create New Task
 const createTask = async (req, res) => {
@@ -63,4 +63,4 @@ const deleteTask = async (req, res) => {
   }
 };
 
-module.exports = { createTask, getTasks, editTaskFrom, updateTask, deleteTask };
+module.exports = createTask, getTasks, editTaskFrom, updateTask, deleteTask;

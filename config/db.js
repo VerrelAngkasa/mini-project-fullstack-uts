@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
 
 // Connect ke database MongoDB yang bernama mini_project
 async function connectDB() {

@@ -1,65 +1,28 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - Manajemen Tugas Mahasiswa</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/css/style.css" />
-  </head>
-  <body class="bg-light">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-5">
-          <div class="card shadow mt-5">
-            <div class="card-body p-4">
-              <h2 class="text-center mb-4">Daftar Akun</h2>
-
-              <div id="message" class="alert" style="display: none"></div>
-
-              <form id="registerForm">
-                <div class="mb-3">
-                  <label for="username" class="form-label">Username</label>
-                  <input type="text" class="form-control" id="username" name="username" required minlength="3" />
-                </div>
-                <div class="mb-3">
-                  <label for="password" class="form-label">Password</label>
-                  <input type="password" class="form-control" id="password" name="password" required minlength="6" />
-                </div>
-                <button type="submit" class="btn btn-primary w-100">Daftar</button>
-              </form>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body class="bg-light d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow-lg p-4" style="width: 350px;">
+        <h2 class="text-center mb-3">Daftar Akun</h2>
+        <form action="/auth/register" method="POST">
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" id="username" name="username" class="form-control" placeholder="Masukkan username" required>
             </div>
-          </div>
-        </div>
-      </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Masukkan password" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Daftar</button>
+        </form>
+        <p class="text-center mt-3">Sudah punya akun? <a href="/auth/login">Login</a></p>
     </div>
-    
-    <script>
-      document.getElementById("registerForm").addEventListener("submit", async function (e) {
-        e.preventDefault();
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
 
-        const response = await fetch("/auth/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username, password })
-        });
-
-        const data = await response.json();
-        const messageBox = document.getElementById("message");
-
-        if (response.ok) {
-          messageBox.className = "alert alert-success";
-          messageBox.textContent = data.message;
-          messageBox.style.display = "block";
-          setTimeout(() => window.location.href = "/auth/login", 2000);
-        } else {
-          messageBox.className = "alert alert-danger";
-          messageBox.textContent = data.message;
-          messageBox.style.display = "block";
-        }
-      });
-    </script>
-  </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>

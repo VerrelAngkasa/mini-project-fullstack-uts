@@ -1,4 +1,4 @@
-const User = require("../models/userModel");
+const User = require('../models/userModel');
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
@@ -44,4 +44,4 @@ const logout = async (req, res) => {
   res.redirect("/auth/login");
 };
 
-module.exports = { register, login, logout };
+module.exports = register, login, logout;
