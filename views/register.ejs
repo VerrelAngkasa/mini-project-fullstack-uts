@@ -1,39 +1,65 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Task Management</title>
-    <link rel="stylesheet" href="/public/style/style.css">
-</head>
-<body>
-    <%- include('../partials/header') %>
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register - Manajemen Tugas Mahasiswa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body class="bg-light">
     <div class="container">
-        <h1>Register</h1>
-        <form id="registerForm">
-            <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" id="username" name="username" required>
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" required>
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password" required>
-            </div>
-            <div class="mb-3">
-                <label for="confirmPassword" class="form-label">Confirm Password</label>
-                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Register</button>
-        </form>
-        <div id="message" class="alert" style="display: none;"></div>
-    </div>
+      <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+          <div class="card shadow mt-5">
+            <div class="card-body p-4">
+              <h2 class="text-center mb-4">Daftar Akun</h2>
 
-    <%- include('../partials/footer') %>
-    <script src="/public/script/auth.js"></script>
-</body>
+              <div id="message" class="alert" style="display: none"></div>
+
+              <form id="registerForm">
+                <div class="mb-3">
+                  <label for="username" class="form-label">Username</label>
+                  <input type="text" class="form-control" id="username" name="username" required minlength="3" />
+                </div>
+                <div class="mb-3">
+                  <label for="password" class="form-label">Password</label>
+                  <input type="password" class="form-control" id="password" name="password" required minlength="6" />
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Daftar</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <script>
+      document.getElementById("registerForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        const response = await fetch("/auth/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json();
+        const messageBox = document.getElementById("message");
+
+        if (response.ok) {
+          messageBox.className = "alert alert-success";
+          messageBox.textContent = data.message;
+          messageBox.style.display = "block";
+          setTimeout(() => window.location.href = "/auth/login", 2000);
+        } else {
+          messageBox.className = "alert alert-danger";
+          messageBox.textContent = data.message;
+          messageBox.style.display = "block";
+        }
+      });
+    </script>
+  </body>
 </html>

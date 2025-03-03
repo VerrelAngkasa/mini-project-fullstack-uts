@@ -1,44 +1,47 @@
-const User = require('../models/userModel');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
+const User = require("../models/userModel");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 
-// Fungsi untuk registrasi user
-async function userRegister(req, res) {
-  const { username, password } = req.body;
-
+// Register User
+const register = async (req, res) => {
   try {
+    const { username, password } = req.body;
+
+    const existingUser = await User.findOne({ username });
+    if (existingUser) return res.status(400).json({ message: "User already exists" });
+
     const user = new User({ username, password });
     await user.save();
-    res.status(201).json({ message: 'User registered successfully!' })
-  } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(201).redirect("/auth/login"); // Redirect to login page after registering
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
-}
+};
 
-// Fungsi untuk login user
-async function userLogin(req, res) {
-  const { username, password } = req.body;
-
+// Login User
+const login = async (req, res) => {
   try {
+    const { username, password } = req.body;
+
     const user = await User.findOne({ username });
-    if (!user || !(await bcrypt.compare(password, user.password))) {
-      return res.status(400).json({ message: 'Username or password not found' });
-    }
-    
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    res.json({ token });
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-}
+    if (!user) return res.status(400).json({ message: "Invalid credentials" });
 
-// Fungsi untuk logout user
-async function userLogout(req, res) {
-  try {
-    res.json({ message: 'Logged out successfully!' });
-  } catch (err) {
-    res.status(400).json({ message: err.messsage });
-  }
-}
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
 
-module.exports = { userRegister, userLogin, userLogout };
+    const token = jwt.sign({ userId: user._id, username: user.username }, process.env.JWT_SECRET, { expiresIn: "1h" });
+
+    res.cookie("token", token, { httpOnly: true, maxAge: 3600000 });
+    res.redirect("/tasks"); // Redirect to home page after login
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Logout User
+const logout = async (req, res) => {
+  res.clearCookie("token");
+  res.redirect("/auth/login");
+};
+
+module.exports = { register, login, logout };

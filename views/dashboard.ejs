@@ -1,40 +1,86 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-    <%- include('../partials/header') %>
-    <title>Dashboard - Task Management</title>
-</head>
-<body>
-    <%- include('../partials/navigation') %>
-
-    <div class="container">
-        <div class="dashboard-header">
-            <h1>Dashboard Tugas</h1>
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTaskModal">
-                Add New Task
-            </button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - Manajemen Tugas Mahasiswa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div class="container">
+        <a class="navbar-brand" href="/tasks/dashboard">Manajemen Tugas</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/auth/logout">Logout</a>
+            </li>
+          </ul>
         </div>
+      </div>
+    </nav>
 
-        <div class="task-filters">
-            <select id="categoryFilter" class="form-select">
-                <option value="">Semua Kategori</option>
-                <option value="Kuliah">Kuliah</option>
-                <option value="Organisasi">Organisasi</option>
-            </select>
-            <select id="statusFilter" class="form-select">
-                <option value="">Semua Status</option>
-                <option value="Belum Selesai">Belum Selesai</option>
-                <option value="Sedang Dikerjakan">Sedang Dikerjakan</option>
-                <option value="Selesai">Selesai</option>
-            </select>
-        </div>
+    <div class="container mt-4">
+      <h2 class="mb-4">Daftar Tugas</h2>
+      
+      <!-- Notifikasi Real-Time -->
+      <div id="notification" class="alert alert-info" style="display: none;"></div>
 
-        <div id="taskList" class="task-grid"></div>
+      <!-- Filter Kategori -->
+      <select id="categoryFilter" class="form-select mb-3">
+        <option value="">Semua Kategori</option>
+        <option value="Kuliah">Kuliah</option>
+        <option value="Organisasi">Organisasi</option>
+        <option value="Pribadi">Pribadi</option>
+      </select>
+
+      <!-- Daftar Tugas -->
+      <ul id="taskList" class="list-group">
+      </ul>
     </div>
 
-    <%- include('../partials/taskForm') %>
-    <%- include('../partials/footer') %>
-    
-    <script src="/public/script/tasks.js"></script>
-</body>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+
+      async function fetchTasks(category = "") {
+        let url = "/tasks";
+        if (category) url += `?category=${category}`;
+
+        const response = await fetch(url);
+        const tasks = await response.json();
+
+        const taskList = document.getElementById("taskList");
+        taskList.innerHTML = "";
+
+        tasks.forEach(task => {
+          const li = document.createElement("li");
+          li.className = "list-group-item";
+          li.innerHTML = `<strong>${task.title}</strong> - ${task.category} - ${task.deadline}`;
+          taskList.appendChild(li);
+        });
+      }
+
+      document.getElementById("categoryFilter").addEventListener("change", (e) => {
+        fetchTasks(e.target.value);
+      });
+
+      fetchTasks();
+
+      // Menerima notifikasi tugas baru dari WebSocket
+      socket.on("newTask", (task) => {
+        const notification = document.getElementById("notification");
+        notification.textContent = `Tugas baru ditambahkan: ${task.title} - ${task.category}`;
+        notification.style.display = "block";
+        setTimeout(() => { notification.style.display = "none"; }, 5000);
+        fetchTasks();
+      });
+    </script>
+  </body>
 </html>
