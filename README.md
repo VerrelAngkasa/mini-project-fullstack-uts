@@ -1,3 +1,3 @@
-# Mini-Project-Fullstack-Uts
+# Mini-Project-Fullstack-UTS
 # Website Manajemen Tugas Mahasiswa
 
