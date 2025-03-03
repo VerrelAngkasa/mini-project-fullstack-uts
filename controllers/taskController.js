@@ -19,16 +19,16 @@ const getTasks = async (req, res) => {
       category,
       deadline,
       status,
-      user_id: req.user.userId, // Get user from JWT
+      user_id: req.user.userId,
     });
     await task.save();
-    res.redirect("/tasks"); // Redirect instead of sending JSON
+    res.redirect("/tasks");
   } catch (error) {
     res.status(500).send(error.message);
   }
 };
 
-// Edit Task Form by Id
+// Edit Task Form
 const editTaskFrom = async (req, res) => {
   try {
     const task = await Task.findOne({ _id: req.params.id, user_id: req.user.userId });
@@ -63,4 +63,4 @@ const deleteTask = async (req, res) => {
   }
 };
 
-module.exports = { createTask, getTasks, updateTask, deleteTask };
+module.exports = { createTask, getTasks, editTaskFrom, updateTask, deleteTask };

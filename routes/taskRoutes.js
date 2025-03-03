@@ -5,12 +5,22 @@ const authMiddleware = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
+// Use to Authenticate User
 router.use(authMiddleware);
 
-// Konfigurasi routes untuk tasks
+// Route to Show All Tasks
 router.get('/', getTasks);
+
+// Route to Create a New Task 
 router.post('/', validateTask, createTask);
-router.put('/:id', validateTask, updateTask);  // Menggunakan :id bukan :_id
-router.delete('/:id', deleteTask);  // Menggunakan :id bukan :_id
+
+// Route to Edit Task Form
+router.post('/edit/:id', validateTask, updateTask);
+
+// Route to Update Task
+router.put('/update/:id', validateTask, updateTask);
+
+// Route to Delete Task
+router.delete('/delete/:id', deleteTask);
 
 module.exports = router;

@@ -1,18 +1,21 @@
-const express = require("express");
-const { register, login, logout } = require("../controllers/authController");
-const authMiddleware = require("../middleware/authMiddleware");
+const express = require('express');
+const { register, login, logout } = require('../controllers/authController');
 
 const router = express.Router();
 
-// Route untuk menampilkan halaman login & register
-router.get("/login", (req, res) => res.render("login"));
-router.get("/register", (req, res) => res.render("register"));
+// Route for Register Page
+router.get('/register', (req, res) => {
+    res.render('register');
+});
 
-// Route untuk register, login (TIDAK PERLU authMiddleware)
-router.post("/register", register);
-router.post("/login", login);
+// Route for Login Page
+router.get('/login', (req, res) => {
+    res.render('login');
+});
 
-// Route logout (BUTUH authMiddleware untuk memastikan user login)
-router.post("/logout", authMiddleware, logout);
+// HTTP Method for Register, Login, and Logout Page
+router.post('/register', register);
+router.post('/login', login);
+router.post('/logout', logout);
 
 module.exports = router;
