@@ -8,13 +8,13 @@ Proyek ini adalah aplikasi berbasis **Node.js** dengan **Express.js** sebagai ba
 ## 🛠️ Persyaratan
 Pastikan Anda telah menginstal software berikut sebelum menjalankan proyek:
 - **Node.js** (versi terbaru direkomendasikan)
-- **MySQL** (jika menggunakan database MySQL) atau **MongoDB** (jika menggunakan database NoSQL)
+- **MongoDB** (untuk menggunakan database NoSQL)
 
 ---
 
 ## ⚙️ Cara Mengatur Database
 
-### **1. Menggunakan MongoDB:**
+### **Menggunakan MongoDB:**
 1. Pastikan MongoDB telah terinstal dan berjalan di komputer Anda.
 2. Edit file **.env** dan sesuaikan konfigurasi database:
    ```env
