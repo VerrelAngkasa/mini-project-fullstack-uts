@@ -1,13 +1,11 @@
 const jwt = require("jsonwebtoken");
 
-// Middleware autentikasi
+// Middleware Authentikasi User
 const authMiddleware = (req, res, next) => {
-  // Ambil token dari header atau cookie
-  // const token = req.cookies?.token || req.header("Authorization")?.replace("Bearer ", "");
-
-  // Jika token tidak ditemukan, kirim response 401 (Unauthorized)
+  const token = req.cookies.token;
+  // Jika token tidak ditemukan, kirim response dengan status code 401 (Unauthorized)
   if (!token) {
-    return res.status(401).json({ message: "Authorization Denied! No token provided." });
+    return res.redirect("/auth/login");
   }
 
   try {
@@ -16,7 +14,7 @@ const authMiddleware = (req, res, next) => {
     req.user = decoded; // Simpan data user di req.user
     next(); // Lanjutkan ke middleware berikutnya
   } catch (err) {
-    res.status(401).json({ message: "Token is not valid" });
+    res.redirect("/auth/login");
   }
 };
 
