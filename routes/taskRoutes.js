@@ -1,30 +1,22 @@
-const express = require('express');
-const createTask = require('../controllers/taskController');
-const getTasks = require('../controllers/taskController');
-const editTaskFrom = require('../controllers/taskController');
-const updateTask = require('../controllers/taskController');
-const deleteTask = require('../controllers/taskController');
-const validateTask = require('../middleware/taskMiddleware');
-const authMiddleware = require('../middleware/authMiddleware');
-
+const express = require("express");
 const router = express.Router();
+const taskController = require("../controllers/taskController");
+const authMiddleware = require("../middleware/authMiddleware");
+const validateTask = require("../middleware/taskMiddleware");
 
-// Use to Authenticate User
-router.use(authMiddleware);
+// Show Dashboard (Home Page)
+router.get("/", authMiddleware, taskController.getTasks);
 
-// Route to Show All Tasks
-router.get('/', getTasks);
+// Create Task
+router.post("/", authMiddleware, validateTask, taskController.createTask);
 
-// Route to Create a New Task 
-router.post('/', validateTask, createTask);
+// Show Edit Task Form
+router.get("/edit/:id", authMiddleware, taskController.editTaskForm);
 
-// Route to Edit Task Form
-router.post('/edit/:id', validateTask, editTaskFrom);
+// Update Task
+router.post("/update/:id", authMiddleware, validateTask, taskController.updateTask);
 
-// Route to Update Task
-router.put('/update/:id', validateTask, updateTask);
-
-// Route to Delete Task
-router.delete('/delete/:id', deleteTask);
+// Delete Task
+router.post("/delete/:id", authMiddleware, taskController.deleteTask);
 
 module.exports = router;

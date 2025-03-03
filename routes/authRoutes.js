@@ -1,7 +1,5 @@
 const express = require('express');
-const register = require('../controllers/authController');
-const login = require('../controllers/authController');
-const logout = require('../controllers/authController');
+const authController = require('../controllers/authController');
 
 const router = express.Router();
 
@@ -16,8 +14,8 @@ router.get('/login', (req, res) => {
 });
 
 // HTTP Method for Register, Login, and Logout Page
-router.post('/register', register);
-router.post('/login', login);
-router.post('/logout', logout);
+router.post('/register', authController.register);
+router.post('/login', authController.login);
+router.post('/logout', authController.logout);
 
 module.exports = router;

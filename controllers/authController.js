@@ -44,4 +44,4 @@ const logout = async (req, res) => {
   res.redirect("/auth/login");
 };
 
-module.exports = register, login, logout;
+module.exports = { register, login, logout };

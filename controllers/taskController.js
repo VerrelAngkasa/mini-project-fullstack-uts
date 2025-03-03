@@ -1,7 +1,7 @@
 const Task = require('../models/taskModel');
 
 // Create New Task
-const createTask = async (req, res) => {
+const getTasks = async (req, res) => {
   try {
     const tasks = await Task.find({ user_id: req.user.userId });
     res.render("tasks", { tasks, user: req.user });
@@ -11,7 +11,7 @@ const createTask = async (req, res) => {
 };
 
 // Get All Tasks
-const getTasks = async (req, res) => {
+const createTask = async (req, res) => {
   try {
     const { title, category, deadline, status } = req.body;
     const task = new Task({
@@ -29,7 +29,7 @@ const getTasks = async (req, res) => {
 };
 
 // Edit Task Form
-const editTaskFrom = async (req, res) => {
+const editTaskForm = async (req, res) => {
   try {
     const task = await Task.findOne({ _id: req.params.id, user_id: req.user.userId });
     if (!task) return res.status(404).send("Task not found");
@@ -63,4 +63,4 @@ const deleteTask = async (req, res) => {
   }
 };
 
-module.exports = createTask, getTasks, editTaskFrom, updateTask, deleteTask;
+module.exports = { createTask, getTasks, editTaskForm, updateTask, deleteTask };

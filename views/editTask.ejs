@@ -6,35 +6,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Task</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+            background-color: #F5F5F5;
+        }
+        .card {
+            border-radius: 12px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-control, .form-select {
+            border-radius: 8px;
+        }
+        .btn-primary {
+            background-color: #795548;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #5D4037;
+        }
+        .btn-secondary {
+            background-color: #B0BEC5;
+            border: none;
+        }
+        .btn-secondary:hover {
+            background-color: #90A4AE;
+        }
+    </style>
 </head>
 
-<body class="bg-light d-flex justify-content-center align-items-center vh-100">
-    <div class="card shadow-lg p-4" style="width: 400px;">
-        <h2 class="text-center mb-3">Edit Task</h2>
+<body class="d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-4" style="width: 400px;">
+        <h2 class="text-center mb-3 fw-bold">Edit Task</h2>
         <form action="/tasks/update/<%= task._id %>" method="POST">
             <div class="mb-3">
-                <label class="form-label">Task Title</label>
+                <label class="form-label fw-semibold">Task Title</label>
                 <input type="text" name="title" class="form-control" value="<%= task.title %>" required>
             </div>
             <div class="mb-3">
-                <label class="form-label">Category</label>
+                <label class="form-label fw-semibold">Category</label>
                 <input type="text" name="category" class="form-control" value="<%= task.category %>" required>
             </div>
             <div class="mb-3">
-                <label class="form-label">Deadline</label>
+                <label class="form-label fw-semibold">Deadline</label>
                 <input type="date" name="deadline" class="form-control" value="<%= task.deadline.toISOString().split('T')[0] %>" required>
             </div>
             <div class="mb-3">
-                <label class="form-label">Status</label>
+                <label class="form-label fw-semibold">Status</label>
                 <select name="status" class="form-select">
                     <option value="pending" <%=task.status==="pending" ? "selected" : "" %>>Pending</option>
                     <option value="progress" <%=task.status==="progress" ? "selected" : "" %>>In Progress</option>
                     <option value="done" <%=task.status==="done" ? "selected" : "" %>>Done</option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary w-100">Update Task</button>
+            <button type="submit" class="btn btn-primary w-100 py-2">Update Task</button>
         </form>
-        <a href="/tasks" class="btn btn-secondary w-100 mt-2">Back to Tasks</a>
+        <a href="/tasks" class="btn btn-secondary w-100 py-2 mt-2">Back to Tasks</a>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>

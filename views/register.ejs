@@ -5,24 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - Manajemen Tugas Mahasiswa</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f4ede4;
+            font-family: 'Nunito Sans', sans-serif;
+        }
+        .card {
+            background-color: #e0c9a6;
+            border: none;
+            border-radius: 12px;
+        }
+        .card-header {
+            background-color: #a67c52;
+            color: white;
+            text-align: center;
+            font-size: 1.5rem;
+            padding: 15px;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+        .btn-custom {
+            background-color: #8c6239;
+            color: white;
+            border: none;
+        }
+        .btn-custom:hover {
+            background-color: #754c29;
+        }
+        .form-control {
+            border-radius: 8px;
+        }
+        .text-center a {
+            color: #8c6239;
+        }
+    </style>
 </head>
-<body class="bg-light d-flex justify-content-center align-items-center vh-100">
-    <div class="card shadow-lg p-4" style="width: 350px;">
-        <h2 class="text-center mb-3">Daftar Akun</h2>
-        <form action="/auth/register" method="POST">
-            <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" id="username" name="username" class="form-control" placeholder="Masukkan username" required>
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" id="password" name="password" class="form-control" placeholder="Masukkan password" required>
-            </div>
-            <button type="submit" class="btn btn-primary w-100">Daftar</button>
-        </form>
-        <p class="text-center mt-3">Sudah punya akun? <a href="/auth/login">Login</a></p>
+<body class="d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow-lg" style="width: 380px;">
+        <div class="card-header">Register New Account</div>
+        <div class="card-body">
+            <form action="/auth/register" method="POST">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Enter your username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn btn-custom w-100">Register</button>
+            </form>
+            <p class="text-center mt-3">Already Have an Account? <a href="/auth/login">Login</a></p>
+        </div>
     </div>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
